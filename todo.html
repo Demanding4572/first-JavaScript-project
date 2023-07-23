@@ -1,24 +1,37 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <!-- Задаємо кодування символів для правильного відображення тексту -->
     <meta charset="UTF-8" />
+    <!-- Задаємо налаштування для відображення на різних пристроях -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Задаємо заголовок вікна браузера -->
     <title>My todo app</title>
   </head>
   <body>
+    <!-- Поле для введення назви задачі -->
     <input id="todo-title" type="text" />
+    <!-- Поле для вибору дати -->
     <input id="date-picker" type="date" />
-    <button onclick="addTodo()">Add todo </button>
+    <!-- Кнопка для додавання нової задачі -->
+    <button onclick="addTodo()">Add todo</button>
 
+    <!-- Контейнер для списку задач -->
     <div id="todos-list"></div>
+
     <script>
+      // Масив, що містить початкову задачу
       let todos = [
         {
           title: "Buy milk",
-          dueDate: new Date(),
+          dueDate: "2023-07-23" // Встановлюємо дату у форматі рік-місяць-день
         }
       ];
 
+      // Виклик функції для відображення початкового списку задач
+      render();
+
+      // Функція для додавання нової задачі в масив і оновлення списку
       function addTodo() {
         const textbox = document.getElementById("todo-title");
         const title = textbox.value;
@@ -29,16 +42,34 @@
           title: title,
           dueDate: dueDate,
         });
-        render();
+        render(); // Оновлення списку після додавання нової задачі
       }
 
-      function render() {
-        document.getElementById("todos-list").innerHTML = "";
+      // Функція для видалення задачи з масиву
+      function deleteTodo() {
+       console.log('delete');
+      }
 
+      // Функція для відображення списку задач на сторінці
+      function render() {
+        // Очищаємо вміст контейнера перед відображенням задач
+        document.getElementById("todos-list").innerHTML = '';
+
+        // Проходимо по всім елементам масиву `todos`
         todos.forEach(function (todo) {
+          // Створюємо елемент `div` для відображення задачі
           const element = document.createElement("div");
-          element.innerText = todo.title + " - Due Date: " + todo.dueDate;
+          // Встановлюємо текст елемента з назвою задачі та датою
+          element.innerText = todo.title + ' ' + todo.dueDate;
+
+          const deleteButton = document.getElementById("button");
+          deleteButton.innerText = "Delete";
+          deleteButton.style = "margin-left: 12px";
+          deleteButton.onclick = deleteTodo;
+          element.appendChild(deleteButton);
+          // Знаходимо контейнер для списку задач
           const todosList = document.getElementById("todos-list");
+          // Додаємо елемент задачі до контейнера
           todosList.appendChild(element);
         });
       }
